@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi CV</title>
+  <style>
+   * { box-sizing: border-box; margin: 0; padding: 0; }
+   body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f0f2f5;
+  padding: 24px;
+}
+
+.cv-container {
+  max-width: 800px;     /* nunca más ancho que esto */
+  margin: 0 auto;       /* centrado horizontal */
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.08);
+  overflow: hidden;
+}
+
+body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 24px; }
+
+.cv-container {
+  max-width: 820px; margin: 0 auto;
+  background: white; padding: 32px 36px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.08);
+}
+
+/* Encabezado */
+.cv-header {
+  background: linear-gradient(135deg, #6C5CE7, #a29bfe);
+  color: white;
+  padding: 36px 32px;
+  text-align: center;
+}
+
+.cv-header h1 { font-size: 28px; margin-bottom: 4px; }
+.cv-header h2 { font-size: 15px; font-weight: 400; opacity: .9; margin-bottom: 14px; }
+
+.cv-contacto {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;     /* clave para responsive: permite saltar de línea */
+  font-size: 13px;
+}
+
+/* Layout de dos columnas — la parte clave */
+.cv-body { display: flex; gap: 28px; }
+
+.cv-sidebar { width: 200px; flex-shrink: 0; }   /* ancho fijo, no se encoge */
+.cv-main    { flex: 1; }
+
+/* Foto de perfil */
+.cv-foto {
+  width: 100%; aspect-ratio: 1; border-radius: 6px;
+  background: #e8e8e8; margin-bottom: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 52px; color: #aaa; overflow: hidden;
+}
+/* Si usas una foto real en vez del emoji, agrega esto: */
+.cv-foto img { width: 100%; height: 100%; object-fit: cover; }
+
+.cv-sidebar h3 { font-size: 15px; margin: 18px 0 8px; color: #1a1a1a; }
+.cv-sidebar p { font-size: 12.5px; color: #444; line-height: 1.6; margin-bottom: 4px; }
+.subtitulo { font-weight: 700; margin-top: 4px; }
+
+/* Títulos de sección (Experiencia, Adiestramiento, etc.) */
+.cv-section-title {
+  font-size: 19px; color: #1a1a1a;
+  border-bottom: 1px solid #ddd; padding-bottom: 6px; margin: 22px 0 14px;
+}
+.cv-main .cv-section-title:first-child { margin-top: 0; }
+
+.cv-item { margin-bottom: 14px; }
+.cv-puesto { font-size: 14px; font-weight: 700; color: #2c5f8a; }
+.cv-meta { font-size: 13px; color: #333; margin-bottom: 6px; }
+.cv-item ul { padding-left: 20px; }
+.cv-item li { font-size: 13px; color: #444; line-height: 1.6; margin-bottom: 3px; }
+
+@media (max-width: 600px) {
+  .cv-container { padding: 20px; }
+  .cv-body { flex-direction: column; }   /* apila sidebar y contenido, en vez de lado a lado */
+  .cv-sidebar { width: 100%; }           /* el sidebar ocupa todo el ancho al apilarse */
+  .cv-header h1 { font-size: 24px; }     /* letras más pequeñas en pantallas chicas */
+}
+  </style> 
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // Aquí escribiremos todo nuestro código React
+    const datosCV = {
+  nombre: "Jaime Enrrique Robles Rosero",
+  titulo: "Curriculum",
+  email: "jaimeenriqueroblesrosero@gmail.com",
+  telefono: "0969429865",
+  linkedin: "",
+
+  datosPersonales: {
+    nacimiento: "13.08.1999 en Guayaquil",
+    direccion: "Suburbio",
+    estadoCivil: "Soltero"
+  },
+
+  habilidadesInformaticas: [
+    "Desarrollo de pagina Web", "Diseño Grafico",
+  ],
+
+  idiomas: [
+    { idioma: "Español", nivel: "Lengua materna" },
+    { idioma: "Inglés", nivel: "Nivel basico" }
+  ],
+
+  experiencia: [
+    {
+      puesto: "Conductor",
+      empresa: "Norfake",
+      periodo: "2023 - 2026",
+      logros: [
+        "Transporte de mercaderia"
+      ]
+    },
+    {
+      puesto: "Servicio al cliente",
+      empresa: "Barbero",
+      periodo: "2015 - 2016",
+      logros: [
+        ""
+      ]
+    }
+  ],
+
+  formacion: [
+    {
+      titulo: "Administracion de sistemas",
+      periodo: "2017 — 2019",
+      detalle: "Joaquin Gallejos Lara, Guayaquil"
+    },
+  ],
+
+  certificados: [
+    { nombre: "Profesional en Gestión de Proyectos (PMP)", detalle: "PMI, obtenido en 2021" },
+    { nombre: "Certificado ScrumMaster (CSM)", detalle: "Scrum Alliance, obtenido en 2020" }
+  ]
+};
+function Encabezado({ datos }) {
+  return (
+    <header className="cv-header">
+      <h1>{datos.nombre}</h1>
+      <h2>{datos.titulo}</h2>
+      <div className="cv-contacto">
+        <span>✉ {datos.email}</span>
+        <span className="divisor">|</span>
+        <span>📞 {datos.telefono}</span>
+        <span className="divisor">|</span>
+        <span>🔗 {datos.linkedin}</span>
+      </div>
+    </header>
+  );
+}
+function Sidebar({ datos }) {
+  return (
+    <aside className="cv-sidebar">
+
+      {/* Placeholder de foto — reemplázalo por tu imagen real */}
+      <div className="cv-foto"><img src="jaime.jpeg" alt="Foto de perfil" /></div>
+
+      <h3>Datos personales</h3>
+      <p>Nacido el {datos.datosPersonales.nacimiento}</p>
+      <p>Dirección: {datos.datosPersonales.direccion}</p>
+      <p>Estado civil: {datos.datosPersonales.estadoCivil}</p>
+
+      <h3>Conocimiento</h3>
+      <p className="subtitulo">Habilidades informáticas</p>
+      {datos.habilidadesInformaticas.map((h, i) => (
+        <p key={i}>{h}</p>
+      ))}
+
+      <h3>Idiomas</h3>
+      {datos.idiomas.map((item, i) => (
+        <p key={i}>{item.idioma}: {item.nivel}</p>
+      ))}
+
+    </aside>
+  );
+}
+function Experiencia({ lista }) {
+  return (
+    <section>
+      <h2 className="cv-section-title">Experiencia profesional</h2>
+
+      {lista.map((exp, i) => (
+        <div key={i} className="cv-item">
+          <p className="cv-puesto">{exp.puesto}</p>
+          <p className="cv-meta">{exp.periodo} | {exp.empresa}</p>
+          <ul>
+            {exp.logros.map((logro, j) => (
+              <li key={j}>{logro}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </section>
+  );
+}
+function Formacion({ lista }) {
+  return (
+    <section>
+      <h2 className="cv-section-title">Adiestramiento</h2>
+      {lista.map((item, i) => (
+        <div key={i} className="cv-item">
+          <p className="cv-puesto">{item.titulo}</p>
+          <p className="cv-meta">{item.periodo} | {item.detalle}</p>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function Certificados({ lista }) {
+  return (
+    <section>
+      <h2 className="cv-section-title">Certificados y formación complementaria</h2>
+      {lista.map((item, i) => (
+        <div key={i} className="cv-item">
+          <p className="cv-puesto">{item.nombre}</p>
+          <p className="cv-meta">{item.detalle}</p>
+        </div>
+      ))}
+    </section>
+  );
+}
+function App() {
+  return (
+    <div className="cv-container">
+      <Encabezado datos={datosCV} />
+
+      <div className="cv-body">
+        <Sidebar datos={datosCV} />
+
+        <main className="cv-main">
+          <Experiencia lista={datosCV.experiencia} />
+          <Formacion lista={datosCV.formacion} />
+          <Certificados lista={datosCV.certificados} />
+        </main>
+      </div>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+
+
+  </script>
+
+</body>
+</html>
